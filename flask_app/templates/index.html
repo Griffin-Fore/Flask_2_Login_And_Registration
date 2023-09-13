@@ -3,36 +3,74 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="styles.css" />
     <title>First Flask</title>
 </head>
 <body>
-    <h1>All Users</h1>
-    <table>
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Full Name</th>
-                <th>Email</th>
-                <th>Created At</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for user in all_users %}
-                <tr>
-                    <td>{{ user.id }}</td>
-                    <td>{{ user.first_name }} {{ user.last_name }}</td>
-                    <td>{{ user.email }}</td>
-                    <td>{{ user.created_at }}</td>
-                    <td>
-                        <a href="/users/{{ user.id }}">Show</a>
-                        <a href="/users/{{ user.id }}/edit">Edit</a>
-                        <a href="/delete/{{ user.id }}">Delete</a>
-                    </td>
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-    <a href="/users/new">Add A New User</a>
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <div id="popup">
+                {% for message in messages %}
+                    <p>{{ message }}</p>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
+    <div style="width: 30%; display: inline-block; background-color: grey; border: 2px solid black">
+        <h1 style="color:blue">Register</h1>
+        <form action="create_user" method="POST">
+            <div>
+                <label>
+                    First Name:
+                    <input type="text" name="first_name">
+                </label>    
+            </div>
+            <div>
+                <label>
+                    Last Name:
+                    <input type="text" name="last_name">
+                </label>    
+            </div>
+            <div>
+                <label>
+                    Email:
+                    <input type="email" name="email">
+                </label>
+            </div>
+            <div>
+                <label>
+                    Password:
+                    <input type="password" name="password">
+                </label>
+            </div>
+            <div>
+                <label>
+                    Confirm Password:
+                    <input type="password" name="confirm_password">
+                </label>
+            </div>
+            <input style="background-color: lightskyblue" type="submit" value="Register">
+        </form>
+    </div>
+    <div style="width: 30%; display: inline-block; background-color: grey; border: 2px solid black">
+        <h1 style="color: green">Login</h1>
+        <form action="/users/login" method="POST">
+            <div>
+                <label>
+                    Email:
+                    <input type="email" name="email">
+                </label>
+            </div>
+            <div>
+                <label>
+                    Password:
+                    <input type="password" name="password">
+                </label>
+            </div>
+            <div>
+                <input type="submit" value="Log In">
+            </div>
+        </form>
+    </div>
 </body>
 </html>
